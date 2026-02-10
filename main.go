@@ -138,10 +138,10 @@ When users mention investing money, always use the appropriate tools to understa
 	projectionTool := tools.New("calculate_investment_projection").
 		Description("Calculate how much an investment could grow over time with compound interest").
 		Schema(tools.ObjectSchema(map[string]interface{}{
-			"initial_amount":    tools.StringProperty("Starting amount in USD"),
-			"monthly_addition":  tools.StringProperty("Amount added each month in USD"),
-			"expected_return":   tools.StringProperty("Expected annual return percentage (e.g., '7' for 7%)"),
-			"years":             tools.StringProperty("Number of years to project"),
+			"initial_amount":   tools.StringProperty("Starting amount in USD"),
+			"monthly_addition": tools.StringProperty("Amount added each month in USD"),
+			"expected_return":  tools.StringProperty("Expected annual return percentage (e.g., '7' for 7%)"),
+			"years":            tools.StringProperty("Number of years to project"),
 		}, "initial_amount", "monthly_addition", "expected_return", "years")).
 		HandlerFunc(func(ctx context.Context, input json.RawMessage) (interface{}, error) {
 			var params struct {
@@ -170,10 +170,10 @@ When users mention investing money, always use the appropriate tools to understa
 	riskAssessmentTool := tools.New("assess_investment_risk_profile").
 		Description("Assess the user's risk tolerance through a series of questions to recommend appropriate investment strategies").
 		Schema(tools.ObjectSchema(map[string]interface{}{
-			"age":                    tools.NumberProperty("User's age"),
-			"years_to_retirement":    tools.NumberProperty("Years until retirement goal"),
+			"age":                     tools.NumberProperty("User's age"),
+			"years_to_retirement":     tools.NumberProperty("Years until retirement goal"),
 			"market_downturn_comfort": tools.StringProperty("How comfortable with 20% market drops? ('very_uncomfortable', 'somewhat_uncomfortable', 'neutral', 'comfortable', 'very_comfortable')"),
-			"previous_experience":    tools.StringProperty("Previous investment experience? ('none', 'minimal', 'moderate', 'extensive')"),
+			"previous_experience":     tools.StringProperty("Previous investment experience? ('none', 'minimal', 'moderate', 'extensive')"),
 		}, "age", "years_to_retirement", "market_downturn_comfort", "previous_experience")).
 		HandlerFunc(func(ctx context.Context, input json.RawMessage) (interface{}, error) {
 			var params struct {
@@ -228,10 +228,10 @@ When users mention investing money, always use the appropriate tools to understa
 		}, "monthly_amount", "investment_type", "strategy", "start_date")).
 		HandlerFunc(func(ctx context.Context, input json.RawMessage) (interface{}, error) {
 			var params struct {
-				MonthlyAmount string `json:"monthly_amount"`
+				MonthlyAmount  string `json:"monthly_amount"`
 				InvestmentType string `json:"investment_type"`
-				Strategy      string `json:"strategy"`
-				StartDate     string `json:"start_date"`
+				Strategy       string `json:"strategy"`
+				StartDate      string `json:"start_date"`
 			}
 			if err := json.Unmarshal(input, &params); err != nil {
 				return nil, fmt.Errorf("invalid input: %w", err)
@@ -297,19 +297,19 @@ func generateInvestmentPlan(goal, timeHorizon string, currentAmount, monthlyCapa
 
 	totalMonthly := monthlyCapacity * 12
 	return map[string]interface{}{
-		"goal":             goal,
-		"time_horizon":     timeHorizon,
-		"current_amount":   currentAmount,
+		"goal":           goal,
+		"time_horizon":   timeHorizon,
+		"current_amount": currentAmount,
 		"recommended_allocation": map[string]interface{}{
 			"stocks": fmt.Sprintf("%.0f%%", stocks*100),
 			"bonds":  fmt.Sprintf("%.0f%%", bonds*100),
 			"cash":   fmt.Sprintf("%.0f%%", cash*100),
 		},
-		"annual_contribution":      totalMonthly,
-		"monthly_investment":       monthlyCapacity,
-		"estimated_growth_rate":    "6-8% annually",
-		"key_strategies":           []string{"Dollar-cost averaging", "Automatic rebalancing", "Tax-efficient investing"},
-		"next_steps":               "Review fund options, set up automatic transfers, monitor quarterly",
+		"annual_contribution":   totalMonthly,
+		"monthly_investment":    monthlyCapacity,
+		"estimated_growth_rate": "6-8% annually",
+		"key_strategies":        []string{"Dollar-cost averaging", "Automatic rebalancing", "Tax-efficient investing"},
+		"next_steps":            "Review fund options, set up automatic transfers, monitor quarterly",
 	}
 }
 
@@ -329,13 +329,13 @@ func calculateCompoundGrowth(initial, monthly, returnRate float64, years int) ma
 	earnings := total - totalContributed
 
 	return map[string]interface{}{
-		"initial_investment":  initial,
+		"initial_investment":   initial,
 		"monthly_contribution": monthly,
-		"total_contributed":   totalContributed,
-		"projected_earnings":  fmt.Sprintf("$%.2f", earnings),
-		"projected_total":     fmt.Sprintf("$%.2f", total),
-		"years":               years,
-		"annual_return_rate":  fmt.Sprintf("%.1f%%", returnRate),
+		"total_contributed":    totalContributed,
+		"projected_earnings":   fmt.Sprintf("$%.2f", earnings),
+		"projected_total":      fmt.Sprintf("$%.2f", total),
+		"years":                years,
+		"annual_return_rate":   fmt.Sprintf("%.1f%%", returnRate),
 		"power_of_compounding": fmt.Sprintf("%.1f%% of total is earnings", (earnings/total)*100),
 	}
 }
@@ -397,10 +397,10 @@ func assessRiskProfile(age, yearsToRetirement int, downturnComfort, experience s
 
 func explainConcept(concept string) map[string]interface{} {
 	explanations := map[string]string{
-		"etf": "An ETF (Exchange-Traded Fund) is like a basket of stocks bundled together. Instead of buying individual companies, you buy a tiny piece of many companies at once. It's like ordering a sampler platter instead of one dish!",
-		"dividend": "A dividend is a small payment companies give to shareholders (owners). Think of it as the company saying 'thank you' for investing in us. You get paid just for holding the stock!",
-		"diversification": "Diversification means not putting all your eggs in one basket. Instead of investing only in tech stocks, you spread money across different types of investments, industries, and risk levels.",
-		"compound_interest": "Compound interest is when your earnings make their own earnings. Your money grows faster because you're earning 'interest on interest.' Albert Einstein called it the 8th wonder of the world!",
+		"etf":                   "An ETF (Exchange-Traded Fund) is like a basket of stocks bundled together. Instead of buying individual companies, you buy a tiny piece of many companies at once. It's like ordering a sampler platter instead of one dish!",
+		"dividend":              "A dividend is a small payment companies give to shareholders (owners). Think of it as the company saying 'thank you' for investing in us. You get paid just for holding the stock!",
+		"diversification":       "Diversification means not putting all your eggs in one basket. Instead of investing only in tech stocks, you spread money across different types of investments, industries, and risk levels.",
+		"compound_interest":     "Compound interest is when your earnings make their own earnings. Your money grows faster because you're earning 'interest on interest.' Albert Einstein called it the 8th wonder of the world!",
 		"dollar_cost_averaging": "Instead of trying to time the market perfectly, you invest a fixed amount regularly (monthly). By averaging out the price over time, you reduce the risk of buying at the peak.",
 	}
 
@@ -417,7 +417,7 @@ func explainConcept(concept string) map[string]interface{} {
 	}
 
 	return map[string]interface{}{
-		"concept": concept,
+		"concept":     concept,
 		"explanation": "I don't have that concept in my database, but I'd be happy to explain it! Try asking about: ETF, dividend, diversification, compound_interest, or dollar_cost_averaging.",
 	}
 }
