@@ -4,7 +4,7 @@ go 1.23.0
 
 toolchain go1.23.4
 
-replace github.com/becomeliminal/nim-go-sdk => ../..
+replace github.com/becomeliminal/nim-go-sdk => ../../nim-go-sdk
 
 require (
 	github.com/becomeliminal/nim-go-sdk v0.2.0

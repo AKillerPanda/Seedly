@@ -465,22 +465,39 @@ body {
 /* Loading Indicator */
 
 .message-bubble.loading {
-  background: var(--bg-secondary);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.loading-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .typing-indicator {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   align-items: center;
-  height: 1.5rem;
+  height: 2rem;
+  padding: var(--spacing-sm) 0;
 }
 
 .typing-indicator span {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--text-secondary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   animation: typing 1.4s infinite;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
 }
 
 .typing-indicator span:nth-child(2) {
@@ -494,10 +511,10 @@ body {
 @keyframes typing {
   0%, 60%, 100% {
     transform: translateY(0);
-    opacity: 0.5;
+    opacity: 0.6;
   }
   30% {
-    transform: translateY(-8px);
+    transform: translateY(-12px);
     opacity: 1;
   }
 }

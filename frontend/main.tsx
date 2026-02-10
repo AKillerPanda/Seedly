@@ -33,6 +33,7 @@ function InvestMateApp() {
   const [ws, setWs] = useState<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Initialize WebSocket connection
   useEffect(() => {
@@ -43,11 +44,24 @@ function InvestMateApp() {
         socket.onopen = () => {
           console.log('Connected to InvestMate')
           setWs(socket)
+          // Start a new conversation when connected
+          try {
+            socket.send(JSON.stringify({
+              type: 'new_conversation'
+            }))
+          } catch (error) {
+            console.error('Failed to initialize conversation:', error)
+          }
         }
         
         socket.onmessage = (event) => {
           const data = JSON.parse(event.data)
           if (data.type === 'assistant_message') {
+            // Clear timeout when response arrives
+            if (timeoutRef.current) {
+              clearTimeout(timeoutRef.current)
+              timeoutRef.current = null
+            }
             const newMessage: Message = {
               id: Date.now().toString(),
               type: 'assistant',
@@ -113,6 +127,20 @@ function InvestMateApp() {
         type: 'message',
         content: inputValue,
       }))
+      
+      // Set a timeout for response (30 seconds)
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      timeoutRef.current = setTimeout(() => {
+        setIsLoading(false)
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: 'assistant',
+          content: '⏱️ Response is taking longer than expected. The AI might be thinking hard about your question. Please wait or try again.',
+          timestamp: new Date(),
+        }])
+      }, 30000) // 30 second timeout
     } catch (error) {
       console.error('Failed to send message:', error)
       setIsLoading(false)
@@ -230,10 +258,13 @@ function InvestMateApp() {
           {isLoading && (
             <div className="message-group message-assistant">
               <div className="message-bubble assistant loading">
-                <div className="typing-indicator">
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                <div className="loading-content">
+                  <span className="loading-text">InvestMate is thinking</span>
+                  <div className="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
                 </div>
               </div>
             </div>
