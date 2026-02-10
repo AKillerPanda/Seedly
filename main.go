@@ -130,13 +130,13 @@ var conceptCache = map[string]map[string]interface{}{
 
 // Time horizon lookup (pre-computed table)
 var timeHorizonTable = map[string]int{
-	"1":      2,
-	"1-3":    2,
-	"5":      5,
-	"3-5":    5,
-	"10":     10,
-	"20":     20,
-	"20+":    20,
+	"1":   2,
+	"1-3": 2,
+	"5":   5,
+	"3-5": 5,
+	"10":  10,
+	"20":  20,
+	"20+": 20,
 }
 
 // Risk score lookup tables
@@ -147,26 +147,26 @@ var ageRiskScore = [120]int{
 }
 
 var comfortRiskScore = map[string]int{
-	"very_uncomfortable":      10,
-	"somewhat_uncomfortable":  25,
-	"neutral":                 40,
-	"comfortable":             60,
-	"very_comfortable":        75,
+	"very_uncomfortable":     10,
+	"somewhat_uncomfortable": 25,
+	"neutral":                40,
+	"comfortable":            60,
+	"very_comfortable":       75,
 }
 
 var experienceRiskScore = map[string]int{
-	"none":       -20,
-	"minimal":    -10,
+	"none":      -20,
+	"minimal":   -10,
 	"moderate":  0,
-	"extensive":  15,
+	"extensive": 15,
 }
 
 // Allocation lookup based on years horizon
 var allocationByYears = []struct {
-	years   int
-	stocks  float64
-	bonds   float64
-	cash    float64
+	years  int
+	stocks float64
+	bonds  float64
+	cash   float64
 }{
 	{5, 0.30, 0.50, 0.20},
 	{15, 0.60, 0.30, 0.10},
@@ -229,7 +229,7 @@ When users mention investing money, always use the appropriate tools to understa
 	// - send_money: Execute investment transfers (confirmation required)
 	// - deposit_savings: Fund savings accounts (confirmation required)
 	// - withdraw_savings: Withdraw for diversification (confirmation required)
-	
+
 	srv.AddTools(tools.LiminalTools(liminalExecutor)...)
 	log.Println("✅ Integrated 9 Liminal banking tools for real account operations")
 
@@ -418,7 +418,7 @@ When users mention investing money, always use the appropriate tools to understa
 	// ============================================
 	// LIMINAL-POWERED GROUNDBREAKING TOOLS
 	// ============================================
-	
+
 	// Tool 7: AI-Powered Real Transaction Analysis
 	transactionAnalysisTool := tools.New("analyze_real_spending_patterns").
 		Description("Analyze actual spending patterns from real transactions to identify investment opportunities").
@@ -441,13 +441,13 @@ When users mention investing money, always use the appropriate tools to understa
 			investableAmount := calculateInvestableFromSpending(monthlySpend)
 
 			return map[string]interface{}{
-				"analysis_period_days":      days,
-				"average_daily_spending":    fmt.Sprintf("$%.2f", dailySpend),
-				"monthly_spending":          fmt.Sprintf("$%.2f", monthlySpend),
+				"analysis_period_days":       days,
+				"average_daily_spending":     fmt.Sprintf("$%.2f", dailySpend),
+				"monthly_spending":           fmt.Sprintf("$%.2f", monthlySpend),
 				"recommended_monthly_invest": fmt.Sprintf("$%.2f", investableAmount),
-				"savings_opportunity":       fmt.Sprintf("%.1f%% of monthly income", (investableAmount/monthlySpend)*100),
-				"investment_strategy":       "Dollar-cost average the recommendated amount monthly",
-				"potential_annual_growth":   fmt.Sprintf("$%.2f at 7% APY", investableAmount*12*1.07),
+				"savings_opportunity":        fmt.Sprintf("%.1f%% of monthly income", (investableAmount/monthlySpend)*100),
+				"investment_strategy":        "Dollar-cost average the recommendated amount monthly",
+				"potential_annual_growth":    fmt.Sprintf("$%.2f at 7% APY", investableAmount*12*1.07),
 			}, nil
 		}).
 		Build()
@@ -458,13 +458,13 @@ When users mention investing money, always use the appropriate tools to understa
 	smartSavingsTool := tools.New("calculate_smart_savings_rate").
 		Description("Calculate optimal monthly savings rate based on spending velocity and income stability").
 		Schema(tools.ObjectSchema(map[string]interface{}{
-			"monthly_income":     tools.StringProperty("User's monthly income in USD"),
-			"current_savings":    tools.StringProperty("Current savings balance in USD"),
+			"monthly_income":      tools.StringProperty("User's monthly income in USD"),
+			"current_savings":     tools.StringProperty("Current savings balance in USD"),
 			"emergency_fund_goal": tools.StringProperty("Target emergency fund (6-12 months expenses)"),
 		}, "monthly_income")).
 		HandlerFunc(func(ctx context.Context, input json.RawMessage) (interface{}, error) {
 			var params struct {
-				MonthlyIncome      string `json:"monthly_income"`
+				MonthlyIncome     string `json:"monthly_income"`
 				CurrentSavings    string `json:"current_savings"`
 				EmergencyFundGoal string `json:"emergency_fund_goal"`
 			}
@@ -482,14 +482,14 @@ When users mention investing money, always use the appropriate tools to understa
 			investmentBudget := recommendedMonthly - (prioritySavings / 24) // Spread over 2 years
 
 			return map[string]interface{}{
-				"monthly_income":            fmt.Sprintf("$%.2f", income),
-				"current_emergency_fund":    fmt.Sprintf("$%.2f", savings),
-				"emergency_fund_target":     fmt.Sprintf("$%.2f", emergency),
+				"monthly_income":              fmt.Sprintf("$%.2f", income),
+				"current_emergency_fund":      fmt.Sprintf("$%.2f", savings),
+				"emergency_fund_target":       fmt.Sprintf("$%.2f", emergency),
 				"recommended_monthly_savings": fmt.Sprintf("$%.2f", recommendedMonthly),
-				"priority_emergency_fund":   fmt.Sprintf("$%.2f/month", prioritySavings/24),
-				"investment_budget":         fmt.Sprintf("$%.2f/month", investmentBudget),
-				"savings_rate":              fmt.Sprintf("%.1f%% of income", (recommendedMonthly/income)*100),
-				"time_to_goal":              "24 months to emergency fund target",
+				"priority_emergency_fund":     fmt.Sprintf("$%.2f/month", prioritySavings/24),
+				"investment_budget":           fmt.Sprintf("$%.2f/month", investmentBudget),
+				"savings_rate":                fmt.Sprintf("%.1f%% of income", (recommendedMonthly/income)*100),
+				"time_to_goal":                "24 months to emergency fund target",
 			}, nil
 		}).
 		Build()
@@ -525,19 +525,19 @@ When users mention investing money, always use the appropriate tools to understa
 
 			// Calculate projection with 7% return
 			months := 240 // ~20 years default
-			projection := monthlyAmount * ((math.Pow(1.07, float64(months)/12) - 1) / (1.07/12))
+			projection := monthlyAmount * ((math.Pow(1.07, float64(months)/12) - 1) / (1.07 / 12))
 
 			return map[string]interface{}{
-				"success":        true,
-				"goal_id":        "goal_" + generateRandomID(),
-				"goal_name":      params.GoalName,
-				"target_amount":  fmt.Sprintf("$%.2f", targetAmount),
-				"target_date":    params.TargetDate,
-				"monthly_fund":   fmt.Sprintf("$%.2f", monthlyAmount),
+				"success":         true,
+				"goal_id":         "goal_" + generateRandomID(),
+				"goal_name":       params.GoalName,
+				"target_amount":   fmt.Sprintf("$%.2f", targetAmount),
+				"target_date":     params.TargetDate,
+				"monthly_fund":    fmt.Sprintf("$%.2f", monthlyAmount),
 				"investment_type": params.InvestmentType,
 				"projected_total": fmt.Sprintf("$%.2f", projection),
-				"liminal_status": "Ready to link Liminal account for automatic transfers",
-				"message":        fmt.Sprintf("Investment goal '%s' created! Set up automatic transfers from your Liminal account.", params.GoalName),
+				"liminal_status":  "Ready to link Liminal account for automatic transfers",
+				"message":         fmt.Sprintf("Investment goal '%s' created! Set up automatic transfers from your Liminal account.", params.GoalName),
 			}, nil
 		}).
 		Build()
@@ -548,10 +548,10 @@ When users mention investing money, always use the appropriate tools to understa
 	rebalancerTool := tools.New("rebalance_investment_portfolio").
 		Description("Analyze current portfolio allocation and recommend rebalancing moves based on market conditions and transaction history").
 		Schema(tools.ObjectSchema(map[string]interface{}{
-			"current_stocks_value":  tools.StringProperty("Current stock holdings value in USD"),
-			"current_bonds_value":   tools.StringProperty("Current bond holdings value in USD"),
-			"current_cash_value":    tools.StringProperty("Current cash holdings value in USD"),
-			"target_risk_level":     tools.StringProperty("Target risk level: 'conservative', 'moderate', 'aggressive'"),
+			"current_stocks_value": tools.StringProperty("Current stock holdings value in USD"),
+			"current_bonds_value":  tools.StringProperty("Current bond holdings value in USD"),
+			"current_cash_value":   tools.StringProperty("Current cash holdings value in USD"),
+			"target_risk_level":    tools.StringProperty("Target risk level: 'conservative', 'moderate', 'aggressive'"),
 		}, "current_stocks_value", "current_bonds_value", "current_cash_value", "target_risk_level")).
 		HandlerFunc(func(ctx context.Context, input json.RawMessage) (interface{}, error) {
 			var params struct {
@@ -596,8 +596,8 @@ When users mention investing money, always use the appropriate tools to understa
 	savingsBoosterTool := tools.New("identify_savings_boosters").
 		Description("Find micro-investment opportunities by analyzing spending and saving patterns to boost wealth growth").
 		Schema(tools.ObjectSchema(map[string]interface{}{
-			"monthly_budget":       tools.StringProperty("Monthly budget/income"),
-			"discretionary_spend":  tools.StringProperty("Monthly discretionary spending (eating out, entertainment, etc)"),
+			"monthly_budget":      tools.StringProperty("Monthly budget/income"),
+			"discretionary_spend": tools.StringProperty("Monthly discretionary spending (eating out, entertainment, etc)"),
 		}, "monthly_budget")).
 		HandlerFunc(func(ctx context.Context, input json.RawMessage) (interface{}, error) {
 			var params struct {
@@ -616,15 +616,15 @@ When users mention investing money, always use the appropriate tools to understa
 			annualBoost := microInvestment * 12 * 1.07
 
 			return map[string]interface{}{
-				"monthly_budget":           fmt.Sprintf("$%.2f", budget),
-				"monthly_discretionary":    fmt.Sprintf("$%.2f", discretionary),
-				"micro_investment_target":  fmt.Sprintf("$%.2f/month", microInvestment),
-				"strategy":                 "Cut discretionary by 10%, invest the saved amount",
-				"annual_savings":           fmt.Sprintf("$%.2f", microInvestment*12),
-				"annual_growth_at_7pct":    fmt.Sprintf("$%.2f", annualBoost),
-				"10year_projection":        fmt.Sprintf("$%.2f", microInvestment*12*10*1.07),
-				"recommendation":           "Set up automatic transfer from Liminal to investment account",
-				"booster_power":            "Small daily cuts = huge long-term gains!",
+				"monthly_budget":          fmt.Sprintf("$%.2f", budget),
+				"monthly_discretionary":   fmt.Sprintf("$%.2f", discretionary),
+				"micro_investment_target": fmt.Sprintf("$%.2f/month", microInvestment),
+				"strategy":                "Cut discretionary by 10%, invest the saved amount",
+				"annual_savings":          fmt.Sprintf("$%.2f", microInvestment*12),
+				"annual_growth_at_7pct":   fmt.Sprintf("$%.2f", annualBoost),
+				"10year_projection":       fmt.Sprintf("$%.2f", microInvestment*12*10*1.07),
+				"recommendation":          "Set up automatic transfer from Liminal to investment account",
+				"booster_power":           "Small daily cuts = huge long-term gains!",
 			}, nil
 		}).
 		Build()
@@ -635,24 +635,24 @@ When users mention investing money, always use the appropriate tools to understa
 	dynamicRiskTool := tools.New("dynamic_risk_assessment").
 		Description("Assess risk tolerance considering actual transaction patterns and income stability from Liminal data").
 		Schema(tools.ObjectSchema(map[string]interface{}{
-			"income_stability":    tools.StringProperty("Income stability: 'unstable', 'moderate', 'stable'"),
+			"income_stability":      tools.StringProperty("Income stability: 'unstable', 'moderate', 'stable'"),
 			"transaction_frequency": tools.StringProperty("Transaction frequency: 'low', 'medium', 'high'"),
-			"savings_consistency": tools.StringProperty("How consistent are savings: 'inconsistent', 'moderate', 'excellent'"),
+			"savings_consistency":   tools.StringProperty("How consistent are savings: 'inconsistent', 'moderate', 'excellent'"),
 			"months_emergency_fund": tools.NumberProperty("Months of expenses in emergency fund"),
 		}, "income_stability")).
 		HandlerFunc(func(ctx context.Context, input json.RawMessage) (interface{}, error) {
 			var params struct {
-				IncomeStability       string  `json:"income_stability"`
-				TransactionFrequency  string  `json:"transaction_frequency"`
-				SavingsConsistency    string  `json:"savings_consistency"`
-				MonthsEmergencyFund   float64 `json:"months_emergency_fund"`
+				IncomeStability      string  `json:"income_stability"`
+				TransactionFrequency string  `json:"transaction_frequency"`
+				SavingsConsistency   string  `json:"savings_consistency"`
+				MonthsEmergencyFund  float64 `json:"months_emergency_fund"`
 			}
 			if err := json.Unmarshal(input, &params); err != nil {
 				return nil, fmt.Errorf("invalid input: %w", err)
 			}
 
 			// Calculate dynamic risk score from real behavior
-			riskScore := calculateDynamicRiskScore(params.IncomeStability, params.TransactionFrequency, 
+			riskScore := calculateDynamicRiskScore(params.IncomeStability, params.TransactionFrequency,
 				params.SavingsConsistency, int(params.MonthsEmergencyFund))
 
 			return map[string]interface{}{
@@ -713,7 +713,7 @@ func calculateCompoundGrowth(initial, monthly, returnRate float64, years int) ma
 	// Optimized: Direct mathematical formula instead of loop
 	// FV of initial investment
 	fvInitial := initial * math.Pow(1.0+monthlyRate, months)
-	
+
 	// FV of annuity (monthly contributions)
 	// Using geometric series formula: annuity = PMT * [((1+r)^n - 1) / r]
 	var fvAnnuity float64
@@ -746,7 +746,7 @@ func calculateCompoundGrowth(initial, monthly, returnRate float64, years int) ma
 // OPTIMIZED: Direct lookup from pre-computed allocation table
 func generateInvestmentPlan(goal, timeHorizon string, currentAmount, monthlyCapacity float64) map[string]interface{} {
 	years := parseTimeHorizonFast(timeHorizon)
-	
+
 	// O(1) lookup instead of if/else chain
 	stocks, bonds, cash := 0.3, 0.5, 0.2 // default for <= 5 years
 	for _, alloc := range allocationByYears {
